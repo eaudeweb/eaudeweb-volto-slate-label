@@ -1,8 +1,8 @@
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import LabelWrapper from './LabelWrapper';
 
 jest.mock('@plone/volto-slate/editor/render', () => ({
-  serializeNodes: jest.fn(),
+  serializeNodes: jest.fn(() => 'Tooltip Content'),
   serializeNodesToText: jest.fn(() => 'Tooltip Content'),
 }));
 
@@ -13,119 +13,127 @@ describe('LabelWrapper', () => {
       element: {
         data: {
           uid: '123',
-          label_type: 'type',
-          label_pointing: 'pointing',
           tooltip_content: [{ text: 'Tooltip Content' }],
-          tooltip_pointing: 'top center',
-          always_show: false,
-          tooltip_type: 'info',
-          tooltip_size: 'wide',
+          show_on_hover: true,
         },
       },
     };
-    render(
+    const { container } = render(
       <LabelWrapper {...props}>
         <div>Test</div>
       </LabelWrapper>,
     );
+    expect(container.children.length).toBeGreaterThan(0);
   });
 
-  it('renders without crashing with always_show true', () => {
+  it('shows popup on hover', () => {
     const props = {
       attributes: {},
       element: {
         data: {
           uid: '123',
-          label_type: 'type',
-          label_pointing: 'pointing',
           tooltip_content: [{ text: 'Tooltip Content' }],
-          tooltip_pointing: 'top center',
-          always_show: true,
-          tooltip_type: 'info',
-          tooltip_size: 'wide',
+          show_on_hover: true,
         },
       },
     };
-    render(
+    const { getByText, queryByText } = render(
       <LabelWrapper {...props}>
         <div>Test</div>
       </LabelWrapper>,
     );
-  });
-  it('renders without crashing with no label_type', () => {
-    const props = {
-      attributes: {},
-      element: {
-        data: {
-          uid: '123',
-          label_type: undefined,
-          label_pointing: 'pointing',
-          tooltip_content: [{ text: 'Tooltip Content' }],
-          tooltip_pointing: 'top center',
-          always_show: true,
-          tooltip_type: 'info',
-          tooltip_size: 'wide',
-        },
-      },
-    };
-    render(
-      <LabelWrapper {...props}>
-        <div>Test</div>
-      </LabelWrapper>,
-    );
-  });
-  it('renders without crashing with no tooltip_size', () => {
-    const props = {
-      attributes: {},
-      element: {
-        data: {
-          uid: '123',
-          label_type: 'type',
-          label_pointing: 'pointing',
-          tooltip_content: [{ text: 'Tooltip Content' }],
-          tooltip_pointing: 'top center',
-          always_show: true,
-          tooltip_type: 'info',
-          tooltip_size: undefined,
-        },
-      },
-    };
-    render(
-      <LabelWrapper {...props}>
-        <div>Test</div>
-      </LabelWrapper>,
-    );
+
+    const trigger = getByText('Test');
+    fireEvent.mouseEnter(trigger);
+
+    expect(queryByText('Tooltip Content')).not.toBeNull();
+
+    fireEvent.mouseLeave(trigger);
+    expect(queryByText('Tooltip Content')).toBeNull();
   });
 
-  it('renders without crashing with no tooltip _content', () => {
+  it('shows popup on focus and hides on blur', () => {
     const props = {
       attributes: {},
       element: {
         data: {
           uid: '123',
-          label_type: undefined,
-          label_pointing: 'pointing',
+          tooltip_content: [{ text: 'Tooltip Content' }],
+        },
+      },
+    };
+    const { getByText, queryByText } = render(
+      <LabelWrapper {...props}>
+        <div>Test</div>
+      </LabelWrapper>,
+    );
+
+    const trigger = getByText('Test');
+    fireEvent.focus(trigger);
+
+    expect(queryByText('Tooltip Content')).not.toBeNull();
+
+    fireEvent.blur(trigger);
+    expect(queryByText('Tooltip Content')).toBeNull();
+  });
+
+  it('shows popup on Enter or Space and hides on Escape', () => {
+    const props = {
+      attributes: {},
+      element: {
+        data: {
+          uid: '123',
+          tooltip_content: [{ text: 'Tooltip Content' }],
+        },
+      },
+    };
+    const { getByText, queryByText } = render(
+      <LabelWrapper {...props}>
+        <div>Test</div>
+      </LabelWrapper>,
+    );
+
+    const trigger = getByText('Test');
+
+    fireEvent.keyDown(trigger, { key: 'Enter' });
+    expect(queryByText('Tooltip Content')).not.toBeNull();
+
+    fireEvent.keyDown(trigger, { key: 'Escape' });
+    expect(queryByText('Tooltip Content')).toBeNull();
+
+    fireEvent.keyDown(trigger, { key: ' ' });
+    expect(queryByText('Tooltip Content')).not.toBeNull();
+  });
+
+  it('renders with missing tooltip_content gracefully', () => {
+    const props = {
+      attributes: {},
+      element: {
+        data: {
+          uid: '123',
           tooltip_content: undefined,
-          tooltip_pointing: 'top center',
-          always_show: true,
-          tooltip_type: 'info',
-          tooltip_size: 'wide',
         },
       },
     };
-    render(
+    const { container } = render(
       <LabelWrapper {...props}>
         <div>Test</div>
       </LabelWrapper>,
     );
+    expect(container.children.length).toBeGreaterThan(0);
   });
 
-  it('renders without crashing with no data field in element', () => {
+  it('renders ARIA attributes correctly', () => {
     const props = {
       attributes: {},
-      element: {},
+      element: {
+        data: {
+          uid: '123',
+          tooltip_content: [{ text: 'Tooltip Content' }],
+        },
+      },
     };
-    render(
+    const { getByText } = render(
       <LabelWrapper {...props}>
         <div>Test</div>
       </LabelWrapper>,

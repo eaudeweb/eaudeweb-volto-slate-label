@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Popup } from 'semantic-ui-react';
-import cx from 'classnames';
 import {
   serializeNodes,
   serializeNodesToText,
@@ -9,56 +8,81 @@ import {
 const LabelWrapper = (props) => {
   const { attributes, children, element } = props;
   const { data = {} } = element;
-  const {
-    uid,
-    always_show,
-    show_on_hover,
-    label_type,
-    label_pointing,
-    tooltip_type,
-    tooltip_size,
-    tooltip_content,
-    tooltip_pointing,
-  } = data;
+  const { uid, show_on_hover, tooltip_content } = data;
+
+  const triggerRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   const isTooltipText =
     tooltip_content && serializeNodesToText(tooltip_content).trim().length > 0;
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      setIsOpen(true); // Show popup on Enter or Space
+    } else if (event.key === 'Escape') {
+      setIsOpen(false); // Close popup on Escape
+    }
+  };
+
+  const handleFocus = () => {
+    setIsOpen(true); // Show popup on focus
+  };
+
+  const handleBlur = () => {
+    setIsOpen(false); // Hide popup on blur
+  };
+
+  const handleMouseEnter = () => {
+    if (show_on_hover) {
+      setIsOpen(true); // Show popup on mouse hover
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (show_on_hover) {
+      setIsOpen(false); // Hide popup on mouse leave
+    }
+  };
+
   return isTooltipText ? (
     <Popup
-      wide={
-        tooltip_size === 'wide'
-          ? true
-          : tooltip_size === 'extra'
-          ? 'very'
-          : null
-      }
-      position={tooltip_pointing}
-      open={always_show || undefined}
-      on={show_on_hover ? 'hover' : 'click'}
+      position="top center"
+      open={isOpen}
       trigger={
-        label_type !== undefined && label_type !== 'simple' ? (
-          <label
-            className={cx(label_type, label_pointing, 'with-popup ui label')}
-          >
-            {children}
-          </label>
-        ) : (
-          <span
-            id={`label_ref-${uid}`}
-            {...attributes}
-            className="label-node with-popup"
-          >
-            {children}
-          </span>
-        )
+        <span
+          id={`label_ref-${uid}`}
+          {...attributes}
+          className="label-node with-popup"
+          ref={triggerRef}
+          tabIndex={0}
+          role="button"
+          aria-haspopup="true"
+          onKeyDown={handleKeyDown}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          {children}
+        </span>
       }
-      className={tooltip_type}
+      className={
+        data.label_theme === 'dark' ? 'label-wrapper-dark' : 'label-wrapper'
+      }
     >
       {serializeNodes(tooltip_content)}
     </Popup>
   ) : (
-    <label className={cx(label_type, label_pointing, 'ui label')}>
+    <label
+      className="ui label"
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       {children}
     </label>
   );
