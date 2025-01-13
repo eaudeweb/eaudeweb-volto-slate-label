@@ -14,9 +14,9 @@ msgstr ""
 #: editor/index
 # defaultMessage: Edit label
 msgid "Edit label"
-msgstr ""
+msgstr "Label bearbeiten"
 
 #: editor/index
 # defaultMessage: Remove label
 msgid "Remove label"
-msgstr ""
+msgstr "Label entfernen"
