@@ -1,8 +1,8 @@
-# volto-slate-label
+# Volto Slate Label
 
 ## Features
 
-![Label Block](https://raw.githubusercontent.com/eea/volto-slate-label/master/docs/slate-label.png)
+This Volto addon introduces a dynamic hover popup functionality that enhances content interactivity. When a user hovers over specific, pre-defined words or phrases in the text, a small popup appears, displaying additional information, explanations, or related content. This feature is ideal for providing tooltips, quick definitions, or contextual information directly within your Plone/Volto site, improving user experience and engagement.
 
 ## Volto version
 
@@ -10,7 +10,7 @@ This addon requires: `@plone/volto >= 18.0.0` (`volto-slate` part of Volto Core)
 
 ## Getting started
 
-### Try volto-slate-label with Docker
+### Try Volto Slate Label with Docker
 
       git clone https://github.com/eaudeweb/eaudeweb-volto-slate-label
       cd eaudeweb-volto-slate-label
@@ -19,7 +19,7 @@ This addon requires: `@plone/volto >= 18.0.0` (`volto-slate` part of Volto Core)
 
 Go to http://localhost:3000
 
-### Add eaudeweb-volto-slate-label to your Volto project
+### Add Volto Slate Label to your Volto project
 
 1. Make sure you have a [Plone backend](https://plone.org/download) up-and-running at http://localhost:8080/Plone
 
