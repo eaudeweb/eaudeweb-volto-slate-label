@@ -2,7 +2,7 @@
 
 ## Features
 
-This Volto addon introduces a dynamic hover popup functionality that enhances content interactivity. When a user hovers over specific, pre-defined words or phrases in the text, a small popup appears, displaying additional information, explanations, or related content. This feature is ideal for providing tooltips, quick definitions, or contextual information directly within your Plone/Volto site, improving user experience and engagement.
+This Volto addon introduces a dynamic hover/click popup functionality that enhances content interactivity. When a user hovers over specific, pre-defined words or phrases in the text, a small popup appears, displaying additional information, explanations, or related content. This feature is ideal for providing tooltips, quick definitions, or contextual information directly within your Plone/Volto site, improving user experience and engagement.
 
 ## Volto version
 
