@@ -6,7 +6,7 @@ This Volto addon introduces a dynamic hover/click popup functionality that enhan
 
 ## Volto version
 
-This addon requires: `@plone/volto >= 18.0.0` (`volto-slate` part of Volto Core).
+This version requires: `@plone/volto >= 16.0.0.alpha.15` (`volto-slate` part of Volto Core).
 
 ## Getting started
 
