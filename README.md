@@ -10,22 +10,9 @@ This version requires: `@plone/volto >= 16.0.0.alpha.15` (`volto-slate` part of 
 
 ## Getting started
 
-### Try Volto Slate Label with Docker
-
-      git clone https://github.com/eaudeweb/eaudeweb-volto-slate-label
-      cd eaudeweb-volto-slate-label
-      make
-      make start
-
-Go to http://localhost:3000
-
 ### Add Volto Slate Label to your Volto project
 
-1. Make sure you have a [Plone backend](https://plone.org/download) up-and-running at http://localhost:8080/Plone
-
-   ```Bash
-   docker compose up backend
-   ```
+Make sure you have a [Plone backend](https://plone.org/download) up-and-running at http://localhost:8080/Plone
 
 1. Start Volto frontend
 

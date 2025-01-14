@@ -1,11 +1,11 @@
 {
-  "name": "@eeacms/volto-slate-label",
+  "name": "volto-slate-label",
   "version": "1.0.0",
-  "description": "@eeacms/volto-slate-label: Volto add-on",
+  "description": "volto-slate-label: Volto add-on",
   "main": "src/index.js",
-  "author": "European Environment Agency: IDM2 A-Team",
-  "license": "MIT",
-  "homepage": "https://github.com/eea/volto-slate-label",
+  "author": "Interaktiv: Eaudeweb",
+  "license": "",
+  "homepage": "https://github.com/eaudeweb/eaudeweb-volto-slate-label",
   "keywords": [
     "volto-addon",
     "volto",
@@ -14,7 +14,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:eea/volto-slate-label.git"
+    "url": "git@github.com:eaudeweb/volto-slate-label.git"
   },
   "addons": [],
   "devDependencies": {
